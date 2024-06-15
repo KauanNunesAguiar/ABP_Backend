@@ -1,0 +1,40 @@
+### Listar todos os dados ambientais
+GET http://localhost:8080/api/dados-ambientais
+Accept: application/json
+
+###
+
+### Obter um dado ambiental por ID
+GET http://localhost:8080/api/dados-ambientais/5
+Accept: application/json
+
+###
+
+### Adicionar novos dados ambientais
+POST http://localhost:8080/api/dados-ambientais
+Content-Type: application/json
+
+{
+  "localizacao": "Criciuma",
+  "temperatura": 25.5,
+  "umidade": 60.2,
+  "co2": 400
+}
+
+###
+
+### Atualizar dados ambientais por ID
+PUT http://localhost:8080/api/dados-ambientais/1
+Content-Type: application/json
+
+{
+   "localizacao": "Lauro Muller",
+  "temperatura": 26.0,
+  "umidade": 62.0,
+  "co2": 410
+}
+
+###
+
+### Deletar dados ambientais por ID
+DELETE http://localhost:8080/api/dados-ambientais/1

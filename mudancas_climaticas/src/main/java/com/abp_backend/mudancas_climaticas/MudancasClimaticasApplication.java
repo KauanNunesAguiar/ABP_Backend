@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class MudancasClimaticasApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MudancasClimaticasApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(MudancasClimaticasApplication.class, args);
+    }
 }

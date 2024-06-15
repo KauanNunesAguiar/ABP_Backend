@@ -1,0 +1,15 @@
+2024-06-15 18:39:42.179488-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DADOS_AMBIENTAIS" not found (this database is empty); SQL statement:
+select da1_0.id,da1_0.co2,da1_0.localizacao,da1_0.temperatura,da1_0.umidade from dados_ambientais da1_0 offset ? rows fetch first ? rows only [42104-224]
+2024-06-15 18:39:44.063017-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DADOS_AMBIENTAIS" not found (this database is empty); SQL statement:
+select da1_0.id,da1_0.co2,da1_0.localizacao,da1_0.temperatura,da1_0.umidade from dados_ambientais da1_0 offset ? rows fetch first ? rows only [42104-224]
+2024-06-15 18:39:51.138472-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DADOS_AMBIENTAIS" not found (this database is empty); SQL statement:
+select da1_0.id,da1_0.co2,da1_0.localizacao,da1_0.temperatura,da1_0.umidade from dados_ambientais da1_0 offset ? rows fetch first ? rows only [42104-224]
+2024-06-15 18:40:32.984621-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DADOS_AMBIENTAIS" not found (this database is empty); SQL statement:
+select da1_0.id,da1_0.co2,da1_0.localizacao,da1_0.temperatura,da1_0.umidade from dados_ambientais da1_0 offset ? rows fetch first ? rows only [42104-224]
+2024-06-15 18:42:29.927191-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DADOS_AMBIENTAIS" not found (this database is empty); SQL statement:
+select da1_0.id,da1_0.co2,da1_0.localizacao,da1_0.temperatura,da1_0.umidade from dados_ambientais da1_0 offset ? rows fetch first ? rows only [42104-224]
