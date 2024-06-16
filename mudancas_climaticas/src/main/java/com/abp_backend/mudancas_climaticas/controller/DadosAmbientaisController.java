@@ -9,45 +9,86 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.List;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/api/dados-ambientais")
 public class DadosAmbientaisController {
 
-    @Autowired
-    private DadosAmbientaisService service;
+   @Autowired
+   private DadosAmbientaisService service;
 
-    @GetMapping
-    public ResponseEntity<Page<DadosAmbientais>> getAllDadosAmbientais(Pageable pageable) {
-        Page<DadosAmbientais> dadosAmbientaisPage = service.getAllDadosAmbientais(pageable);
-        return ResponseEntity.ok(dadosAmbientaisPage);
-    }
+   // Métodos para CRUD de Dados Ambientais ------------------------------------
+   // Método para listar todos os dados ambientais
+   @GetMapping // GET /api/dados-ambientais
+   public ResponseEntity<Page<DadosAmbientais>> getAllDadosAmbientais(Pageable pageable) {
+      Page<DadosAmbientais> dadosAmbientaisPage = service.getAllDadosAmbientais(pageable);
+      return ResponseEntity.ok(dadosAmbientaisPage);
+   }
+   
+   // Método para criar dados ambientais
+   @PostMapping // POST /api/dados-ambientais
+   @Transactional
+   public ResponseEntity<DadosAmbientais> createDadosAmbientais(@RequestBody DadosAmbientais dadosAmbientais) {
+      DadosAmbientais createdDadosAmbientais = service.saveDadosAmbientais(dadosAmbientais);
+      return ResponseEntity.status(HttpStatus.CREATED).body(createdDadosAmbientais);
+   }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DadosAmbientais> getDadosAmbientaisById(@PathVariable Long id) {
-        Optional<DadosAmbientais> dadosAmbientais = service.getDadosAmbientaisById(id);
-        return dadosAmbientais.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+   // Método para buscar dados ambientais por localização e/ou intervalo de tempo
+   @GetMapping("/search") // GET /api/dados-ambientais/search?
+   public ResponseEntity<List<DadosAmbientais>> searchDadosAmbientais(
+      @RequestParam(required = false) String localizacao, // &localizacao=String
+      @RequestParam(required = false) LocalDate inicio, // &inicio=yyyy-MM-dd
+      @RequestParam(required = false) LocalDate fim, // &fim=yyyy-MM-dd
+      Pageable pageable) {
 
-    @PostMapping
-    public ResponseEntity<DadosAmbientais> createDadosAmbientais(@RequestBody DadosAmbientais dadosAmbientais) {
-        DadosAmbientais createdDadosAmbientais = service.saveDadosAmbientais(dadosAmbientais);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdDadosAmbientais);
-    }
+      LocalDate dataInicioDefault = LocalDate.of(2000, 1, 1);
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DadosAmbientais> updateDadosAmbientais(@PathVariable Long id, @RequestBody DadosAmbientais dadosAmbientais) {
-        Optional<DadosAmbientais> updatedDadosAmbientais = service.updateDadosAmbientais(id, dadosAmbientais);
-        return updatedDadosAmbientais.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+      List<DadosAmbientais> result;
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDadosAmbientais(@PathVariable Long id) {
-        if (service.deleteDadosAmbientais(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+      if (localizacao != null) {
+         result = service.buscarPorLocalizacaoEIntervaloDeTempo(localizacao, (inicio == null) ? dataInicioDefault : inicio, (fim == null) ? LocalDate.now() : fim);
+      } else {
+         result = service.buscarPorIntervaloDeTempo((inicio == null) ? dataInicioDefault : inicio, (fim == null) ? LocalDate.now() : fim);
+      }
+      return ResponseEntity.ok(result);
+   }
+
+   // Método para buscar dados ambientais por id
+   @GetMapping("/{id}") // GET /api/dados-ambientais/{id}
+   public ResponseEntity<DadosAmbientais> getDadosAmbientaisById(@PathVariable Long id) {
+      Optional<DadosAmbientais> dadosAmbientais = service.getDadosAmbientaisById(id);
+      return dadosAmbientais.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+   }
+
+   // Método para atualizar dados ambientais
+   @PutMapping("/{id}") // PUT /api/dados-ambientais/{id}
+   @Transactional
+   public ResponseEntity<DadosAmbientais> updateDadosAmbientais(@PathVariable Long id, @RequestBody DadosAmbientais dadosAmbientais) {
+      Optional<DadosAmbientais> updatedDadosAmbientais = service.updateDadosAmbientais(id, dadosAmbientais);
+      return updatedDadosAmbientais.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+   }
+
+   // Método para deletar dados ambientais
+   @DeleteMapping("/{id}") // DELETE /api/dados-ambientais/{id}
+   @Transactional
+   public ResponseEntity<Void> deleteDadosAmbientais(@PathVariable Long id) {
+      if (service.deleteDadosAmbientais(id)) {
+         return ResponseEntity.ok().build();
+      } else {
+         return ResponseEntity.notFound().build();
+      }
+   }
+
+   // Método para resetar o banco de dados - Somente para testes
+   @PostMapping("/reset") // POST /api/dados-ambientais/reset
+   @Transactional
+   public ResponseEntity<Void> resetDatabase() {
+      service.resetDatabase();
+      return ResponseEntity.ok().build();
+   }
 }

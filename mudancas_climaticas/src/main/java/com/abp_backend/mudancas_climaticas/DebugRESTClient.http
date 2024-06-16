@@ -2,13 +2,21 @@
 GET http://localhost:8080/api/dados-ambientais
 Accept: application/json
 
-###
-
 ### Obter um dado ambiental por ID
 GET http://localhost:8080/api/dados-ambientais/5
 Accept: application/json
 
-###
+### Obter dados ambientais por localização
+GET http://localhost:8080/api/dados-ambientais/search?localizacao=Criciuma
+
+### Obter dados ambientais por data de inicio ou fim
+GET http://localhost:8080/api/dados-ambientais/search?fim=2023-06-30
+
+### Obter dados ambientais por localização, data e hora
+GET http://localhost:8080/api/dados-ambientais/search?localizacao=Criciuma&inicio=2024-06-01&fim=2024-06-20
+
+### Obter dados ambientais por localização, data e hora vazios
+GET http://localhost:8080/api/dados-ambientais/search
 
 ### Adicionar novos dados ambientais
 POST http://localhost:8080/api/dados-ambientais
@@ -21,8 +29,6 @@ Content-Type: application/json
   "co2": 400
 }
 
-###
-
 ### Atualizar dados ambientais por ID
 PUT http://localhost:8080/api/dados-ambientais/1
 Content-Type: application/json
@@ -34,7 +40,8 @@ Content-Type: application/json
   "co2": 410
 }
 
-###
-
 ### Deletar dados ambientais por ID
 DELETE http://localhost:8080/api/dados-ambientais/1
+
+### Reseta a base de dados
+POST http://localhost:8080/api/dados-ambientais/reset

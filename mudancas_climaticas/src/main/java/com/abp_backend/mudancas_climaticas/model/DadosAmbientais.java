@@ -1,5 +1,7 @@
 package com.abp_backend.mudancas_climaticas.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,8 +15,8 @@ public class DadosAmbientais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   
     private String localizacao;
+    private LocalDateTime dataHora;
     private double temperatura;
     private double umidade;
     private int co2;
@@ -22,46 +24,55 @@ public class DadosAmbientais {
     public DadosAmbientais() {
     }
 
-   public DadosAmbientais(Long id, String localizacao, double temperatura, double umidade, int co2) {
+   public DadosAmbientais(Long id, String localizacao, LocalDateTime dataHora, double temperatura, double umidade, int co2) {
       this.id = id;
       this.localizacao = localizacao;
+      this.dataHora = dataHora;
       this.temperatura = temperatura;
       this.umidade = umidade;
       this.co2 = co2;
    }
 
-    // Getters e Setters
-    public Long getId() {
-        return id;
-    }
+   // Getters e Setters --------------------------------------------------------
+   public Long getId() {
+      return id;
+   }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-    public String getLocalizacao() {
-        return localizacao;
-    }
+   public String getLocalizacao() {
+      return localizacao;
+   }
 
-    public void setLocalizacao(String localizacao) {
-        this.localizacao = localizacao;
-    }
+   public void setLocalizacao(String localizacao) {
+      this.localizacao = localizacao;
+   }
+    
+   public LocalDateTime getDataHora() {
+      return dataHora;
+   }
+      
+   public void setDataHora(LocalDateTime dataHora) {
+      this.dataHora = dataHora;
+   }
 
-    public double getTemperatura() {
-        return temperatura;
-    }
+   public double getTemperatura() {
+      return temperatura;
+   }
 
-    public void setTemperatura(double temperatura) {
-        this.temperatura = temperatura;
-    }
+   public void setTemperatura(double temperatura) {
+      this.temperatura = temperatura;
+   }
 
-    public double getUmidade() {
-        return umidade;
-    }
+   public double getUmidade() {
+      return umidade;
+   }
 
-    public void setUmidade(double umidade) {
-        this.umidade = umidade;
-    }
+   public void setUmidade(double umidade) {
+      this.umidade = umidade;
+   }
     
    public int getCo2() {
       return co2;
