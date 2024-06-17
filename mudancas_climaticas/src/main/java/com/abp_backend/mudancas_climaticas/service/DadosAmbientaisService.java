@@ -34,7 +34,6 @@ public class DadosAmbientaisService {
    }
    
    public DadosAmbientais saveDadosAmbientais(DadosAmbientais dados) {
-      dados.setDataHora(LocalDateTime.now());
       return repository.save(dados);
    }
    
@@ -42,7 +41,6 @@ public class DadosAmbientaisService {
       Optional<DadosAmbientais> existingDados = repository.findById(id);
         if (existingDados.isPresent()) {
             dados.setId(id);
-            dados.setDataHora(LocalDateTime.now());
             return Optional.of(repository.save(dados));
         }
         return Optional.empty();
@@ -65,6 +63,12 @@ public class DadosAmbientaisService {
       LocalDateTime startDateTime = inicio.atStartOfDay();
       LocalDateTime endDateTime = fim.plusDays(1).atStartOfDay().minusSeconds(1); // Inclui o fim do dia
       return repository.findByDataHoraBetween(startDateTime, endDateTime);
+   }
+   
+   public List<DadosAmbientais> buscarPorSensorEIntervaloDeTempo(Long sensorId, LocalDate inicio, LocalDate fim) {
+      LocalDateTime startDateTime = inicio.atStartOfDay();
+      LocalDateTime endDateTime = fim.plusDays(1).atStartOfDay().minusSeconds(1); // Inclui o fim do dia
+      return repository.findBySensorIdAndDataHoraBetween(sensorId, startDateTime, endDateTime);
    }
 
    public List<DadosAmbientais> buscarPorLocalizacaoEIntervaloDeTempo(String localizacao, LocalDate inicio, LocalDate fim) {

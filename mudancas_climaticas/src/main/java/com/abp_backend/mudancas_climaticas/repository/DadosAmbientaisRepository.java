@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DadosAmbientaisRepository extends JpaRepository<DadosAmbientais, Long> {
    List<DadosAmbientais> findByDataHoraBetween(LocalDateTime start, LocalDateTime end);
-
+   List<DadosAmbientais> findBySensorIdAndDataHoraBetween(Long sensorId, LocalDateTime start, LocalDateTime end);
    List<DadosAmbientais> findByLocalizacaoAndDataHoraBetween(String localizacao, LocalDateTime start, LocalDateTime end);
 }
+

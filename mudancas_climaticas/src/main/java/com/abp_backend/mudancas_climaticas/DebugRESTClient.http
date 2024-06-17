@@ -2,15 +2,28 @@
 GET http://localhost:8080/api/dados-ambientais
 Accept: application/json
 
-### Obter um dado ambiental por ID
-GET http://localhost:8080/api/dados-ambientais/5
+### Listar todos os sensores
+GET http://localhost:8080/api/sensores
 Accept: application/json
 
+### Adicionar novos sensores
+POST http://localhost:8080/api/sensores
+Content-Type: application/json
+
+{
+      "tipos": 5,
+      "localizacao": "Criciuma"
+}
+
+
 ### Obter dados ambientais por localização
-GET http://localhost:8080/api/dados-ambientais/search?localizacao=Criciuma
+GET http://localhost:8080/api/dados-ambientais/search-by-location?localizacao=Criciuma
+
+### Obter dados ambientais por id do sensor
+GET http://localhost:8080/api/dados-ambientais/search-by-sensor?sensorId=1
 
 ### Obter dados ambientais por data de inicio ou fim
-GET http://localhost:8080/api/dados-ambientais/search?fim=2023-06-30
+GET http://localhost:8080/api/dados-ambientais/search-by-location?localizacao=Criciuma&fim=2026-06-30
 
 ### Obter dados ambientais por localização, data e hora
 GET http://localhost:8080/api/dados-ambientais/search?localizacao=Criciuma&inicio=2024-06-01&fim=2024-06-20
@@ -18,30 +31,23 @@ GET http://localhost:8080/api/dados-ambientais/search?localizacao=Criciuma&inici
 ### Obter dados ambientais por localização, data e hora vazios
 GET http://localhost:8080/api/dados-ambientais/search
 
-### Adicionar novos dados ambientais
-POST http://localhost:8080/api/dados-ambientais
-Content-Type: application/json
+### Sensor coleta e salvar dados ambientais
+POST http://localhost:8080/api/sensores/2/dados?tipoDado=TEMPERATURA&valor=10.0
 
-{
-  "localizacao": "Criciuma",
-  "temperatura": 25.5,
-  "umidade": 60.2,
-  "co2": 400
-}
 
 ### Atualizar dados ambientais por ID
 PUT http://localhost:8080/api/dados-ambientais/1
 Content-Type: application/json
 
 {
-   "localizacao": "Lauro Muller",
-  "temperatura": 26.0,
-  "umidade": 62.0,
-  "co2": 410
+   
 }
 
 ### Deletar dados ambientais por ID
 DELETE http://localhost:8080/api/dados-ambientais/1
 
-### Reseta a base de dados
-POST http://localhost:8080/api/dados-ambientais/reset
+### Reseta a base de dados - dados ambientais
+DELETE http://localhost:8080/api/dados-ambientais/reset
+
+### Reseta a base de dados - sensores
+DELETE http://localhost:8080/api/sensores/reset

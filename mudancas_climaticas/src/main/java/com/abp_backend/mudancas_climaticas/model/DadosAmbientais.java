@@ -3,9 +3,13 @@ package com.abp_backend.mudancas_climaticas.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,70 +19,90 @@ public class DadosAmbientais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String localizacao;
+
+    @ManyToOne
+    @JoinColumn(name = "sensor_id", referencedColumnName = "id")
+    private Sensor sensor;
+
     private LocalDateTime dataHora;
-    private double temperatura;
-    private double umidade;
-    private int co2;
+    private String localizacao;
+    
+    @Enumerated(EnumType.STRING)
+    private TipoDado tipoDado;
+    
+    private Double valor;
+
 
     public DadosAmbientais() {
     }
 
-   public DadosAmbientais(Long id, String localizacao, LocalDateTime dataHora, double temperatura, double umidade, int co2) {
-      this.id = id;
-      this.localizacao = localizacao;
-      this.dataHora = dataHora;
-      this.temperatura = temperatura;
-      this.umidade = umidade;
-      this.co2 = co2;
-   }
+    public DadosAmbientais(Long id, Sensor sensor, LocalDateTime dataHora, TipoDado tipoDado, Double valor) {
+        this.id = id;
+        this.sensor = sensor;
+        this.dataHora = dataHora;
+        this.localizacao = sensor.getLocalizacao();
+        this.tipoDado = tipoDado;
+        this.valor = valor;
+        
+    }
 
-   // Getters e Setters --------------------------------------------------------
-   public Long getId() {
-      return id;
-   }
+    public DadosAmbientais(Sensor sensor, TipoDado tipoDado, Double valor) {
+        this.sensor = sensor;
+        this.dataHora = LocalDateTime.now();
+        this.localizacao = sensor.getLocalizacao();
+        this.tipoDado = tipoDado;
+        this.valor = valor;
+    }
 
-   public void setId(Long id) {
-      this.id = id;
-   }
+    // Getters e Setters --------------------------------------------------------
 
-   public String getLocalizacao() {
-      return localizacao;
-   }
+    public Long getId() {
+        return id;
+    }
 
-   public void setLocalizacao(String localizacao) {
-      this.localizacao = localizacao;
-   }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Sensor getSensor() {
+        return sensor;
+    }
+
+    public void setSensor(Sensor sensor) {
+        this.sensor = sensor;
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
     
-   public LocalDateTime getDataHora() {
-      return dataHora;
-   }
-      
-   public void setDataHora(LocalDateTime dataHora) {
-      this.dataHora = dataHora;
-   }
-
-   public double getTemperatura() {
-      return temperatura;
-   }
-
-   public void setTemperatura(double temperatura) {
-      this.temperatura = temperatura;
-   }
-
-   public double getUmidade() {
-      return umidade;
-   }
-
-   public void setUmidade(double umidade) {
-      this.umidade = umidade;
-   }
+    public String getLocalizacao() {
+        return localizacao;
+    }
     
-   public int getCo2() {
-      return co2;
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+    
+    public TipoDado getTipoDado() {
+      return tipoDado;
    }
-   
-   public void setCo2(int co2) {
-      this.co2 = co2;
-   }
+
+   public void setTipoDado(TipoDado tipoDado) {
+      this.tipoDado = tipoDado;
+  }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    
 }

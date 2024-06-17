@@ -29,19 +29,11 @@ public class DadosAmbientaisController {
       Page<DadosAmbientais> dadosAmbientaisPage = service.getAllDadosAmbientais(pageable);
       return ResponseEntity.ok(dadosAmbientaisPage);
    }
-   
-   // Método para criar dados ambientais
-   @PostMapping // POST /api/dados-ambientais
-   @Transactional
-   public ResponseEntity<DadosAmbientais> createDadosAmbientais(@RequestBody DadosAmbientais dadosAmbientais) {
-      DadosAmbientais createdDadosAmbientais = service.saveDadosAmbientais(dadosAmbientais);
-      return ResponseEntity.status(HttpStatus.CREATED).body(createdDadosAmbientais);
-   }
 
    // Método para buscar dados ambientais por localização e/ou intervalo de tempo
-   @GetMapping("/search") // GET /api/dados-ambientais/search?
-   public ResponseEntity<List<DadosAmbientais>> searchDadosAmbientais(
-      @RequestParam(required = false) String localizacao, // &localizacao=String
+   @GetMapping("/search-by-location") // GET /api/dados-ambientais/search-by-location
+   public ResponseEntity<List<DadosAmbientais>> searchDadosAmbientaisByLocation(
+      @RequestParam(required = true) String localizacao, // &localizacao=String
       @RequestParam(required = false) LocalDate inicio, // &inicio=yyyy-MM-dd
       @RequestParam(required = false) LocalDate fim, // &fim=yyyy-MM-dd
       Pageable pageable) {
@@ -50,14 +42,26 @@ public class DadosAmbientaisController {
 
       List<DadosAmbientais> result;
 
-      if (localizacao != null) {
-         result = service.buscarPorLocalizacaoEIntervaloDeTempo(localizacao, (inicio == null) ? dataInicioDefault : inicio, (fim == null) ? LocalDate.now() : fim);
-      } else {
-         result = service.buscarPorIntervaloDeTempo((inicio == null) ? dataInicioDefault : inicio, (fim == null) ? LocalDate.now() : fim);
-      }
+      result = service.buscarPorLocalizacaoEIntervaloDeTempo(localizacao, (inicio == null) ? dataInicioDefault : inicio, (fim == null) ? LocalDate.now() : fim);
       return ResponseEntity.ok(result);
    }
 
+   // Método para buscar dados ambientais por sensor e/ou intervalo de tempo
+   @GetMapping("/search-by-sensor") // GET /api/dados-ambientais/search-by-sensor
+   public ResponseEntity<List<DadosAmbientais>> searchDadosAmbientaisBySensor(
+      @RequestParam(required = true) Long sensorId, // &sensorId=Long
+      @RequestParam(required = false) LocalDate inicio, // &inicio=yyyy-MM-dd
+      @RequestParam(required = false) LocalDate fim, // &fim=yyyy-MM-dd
+      Pageable pageable) {
+
+      LocalDate dataInicioDefault = LocalDate.of(2000, 1, 1);
+
+      List<DadosAmbientais> result;
+
+      result = service.buscarPorSensorEIntervaloDeTempo(sensorId, (inicio == null) ? dataInicioDefault : inicio, (fim == null) ? LocalDate.now() : fim);
+      return ResponseEntity.ok(result);
+   }
+   
    // Método para buscar dados ambientais por id
    @GetMapping("/{id}") // GET /api/dados-ambientais/{id}
    public ResponseEntity<DadosAmbientais> getDadosAmbientaisById(@PathVariable Long id) {
@@ -85,7 +89,7 @@ public class DadosAmbientaisController {
    }
 
    // Método para resetar o banco de dados - Somente para testes
-   @PostMapping("/reset") // POST /api/dados-ambientais/reset
+   @DeleteMapping("/reset") // DELETE /api/dados-ambientais/reset
    @Transactional
    public ResponseEntity<Void> resetDatabase() {
       service.resetDatabase();
