@@ -6,48 +6,49 @@ Accept: application/json
 GET http://localhost:8080/api/sensores
 Accept: application/json
 
+### Listar todos os usuarios
+GET http://localhost:8080/api/usuarios
+Accept: application/json
+
+### Adicionar novo usuario
+POST http://localhost:8080/api/usuarios
+Content-Type: application/json
+
+{
+      "nome": "Nome",
+      "email": "email@email.com",
+      "senha": "123456"
+}
+
 ### Adicionar novos sensores
 POST http://localhost:8080/api/sensores
 Content-Type: application/json
 
 {
-      "tipos": 5,
-      "localizacao": "Criciuma"
+      "tipos": 10,
+      "localizacao": "Laguna"
 }
 
+### Cadastra um sensor para um usuario
+POST http://localhost:8080/api/usuarios/1/register-sensor/1
 
-### Obter dados ambientais por localização
-GET http://localhost:8080/api/dados-ambientais/search-by-location?localizacao=Criciuma
-
-### Obter dados ambientais por id do sensor
-GET http://localhost:8080/api/dados-ambientais/search-by-sensor?sensorId=1
-
-### Obter dados ambientais por data de inicio ou fim
-GET http://localhost:8080/api/dados-ambientais/search-by-location?localizacao=Criciuma&fim=2026-06-30
-
-### Obter dados ambientais por localização, data e hora
-GET http://localhost:8080/api/dados-ambientais/search?localizacao=Criciuma&inicio=2024-06-01&fim=2024-06-20
-
-### Obter dados ambientais por localização, data e hora vazios
-GET http://localhost:8080/api/dados-ambientais/search
-
-### Sensor coleta e salvar dados ambientais
-POST http://localhost:8080/api/sensores/2/dados?tipoDado=TEMPERATURA&valor=10.0
-
-
-### Atualizar dados ambientais por ID
-PUT http://localhost:8080/api/dados-ambientais/1
+### Adicionar novos dados ambientais
+POST http://localhost:8080/api/sensores/1/colect-data?tipoDado=UMIDADE&valor=20
 Content-Type: application/json
 
-{
-   
-}
+### Listar todos os sensores de um usuario
+GET http://localhost:8080/api/usuarios/1/sensors
+Accept: application/json
 
-### Deletar dados ambientais por ID
-DELETE http://localhost:8080/api/dados-ambientais/1
+### Listar todos os dados ambientais de um sensor
+GET http://localhost:8080/api/usuarios/1/search-by-sensor/1
+Accept: application/json
 
 ### Reseta a base de dados - dados ambientais
 DELETE http://localhost:8080/api/dados-ambientais/reset
 
 ### Reseta a base de dados - sensores
 DELETE http://localhost:8080/api/sensores/reset
+
+### Reseta a base de dados - usuarios
+DELETE http://localhost:8080/api/usuarios/reset
