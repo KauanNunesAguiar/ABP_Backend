@@ -35,7 +35,7 @@ Este projeto tem como objetivo fazer o controle dos seus dadoss e informações 
 - **/api/usuarios/{usuarioId}/register-sensor/{sensorId}**: POST para cadastrar um sensor a um usuário.
 - **/api/usuarios/{usuarioId}/sensors**: GET para listar todos os sensores cadastrados no usuário.
 - **/api/usuarios/{usuarioId}/search-by-sensor/{sensorId}**: POST listar todos os dados ambientais de um sensor de um usuário, sendo possível especificar intervalo de tempo das leituras (inicio = LocalDate inicioDoIntervalo (opcional), fim = LocalDate fimDoIntervalo (opcional)).
-- **/api/usuarios/{usuarioId}/search-by-localizacao/{sensorId}**: POST listar todos os dados ambientais de um usuário em uma localizacao definida, sendo possível especificar intervalo de tempo das leituras (inicio = LocalDate inicioDoIntervalo (opcional), fim = LocalDate fimDoIntervalo (opcional)).
+- **/api/usuarios/{usuarioId}/search-by-location/{localizacao}**: POST listar todos os dados ambientais de um usuário em uma localizacao definida, sendo possível especificar intervalo de tempo das leituras (inicio = LocalDate inicioDoIntervalo (opcional), fim = LocalDate fimDoIntervalo (opcional)).
 - **/api/usuarios/reset**: DELETE para resetar todos os usuarios do banco de dados e retorna o id para 1.
 - **/api/usuarios/ajuda**: GET para adiquir nome dos programadors e do projeto.
 
