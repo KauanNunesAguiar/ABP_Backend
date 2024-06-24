@@ -33,6 +33,23 @@ public class DadosAmbientaisController {
       return ResponseEntity.ok(dadosAmbientaisPage);
    }
    
+   // Método para criar dado ambiental
+   @PostMapping // POST /api/dados-ambientais
+   public ResponseEntity<DadosAmbientais> createDadosAmbientais(@RequestBody DadosAmbientais dadosAmbientais) {
+      if (dadosAmbientais == null || dadosAmbientais.getSensor() == null) return ResponseEntity.badRequest().build();
+       
+      Long sensorId = dadosAmbientais.getSensor().getId();
+      Optional<Sensor> sensorOptional = sensorService.getSensorById(sensorId);
+       
+      if (sensorOptional.isEmpty()) return ResponseEntity.badRequest().build();
+       
+      Sensor sensor = sensorOptional.get();
+      dadosAmbientais.setSensor(sensor);
+       
+      DadosAmbientais createdDadosAmbientais = service.saveDadosAmbientais(dadosAmbientais);
+      return ResponseEntity.ok(createdDadosAmbientais);
+   }
+   
    // Método para buscar dados ambientais por id
    @GetMapping("/{id}") // GET /api/dados-ambientais/{id}
    public ResponseEntity<DadosAmbientais> getDadosAmbientaisById(@PathVariable Long id) {
@@ -58,23 +75,6 @@ public class DadosAmbientaisController {
       } else {
          return ResponseEntity.notFound().build();
       }
-   }
-   
-   // Método para criar dado ambiental
-   @PostMapping // POST /api/dados-ambientais
-   public ResponseEntity<DadosAmbientais> createDadosAmbientais(@RequestBody DadosAmbientais dadosAmbientais) {
-      if (dadosAmbientais == null || dadosAmbientais.getSensor() == null) return ResponseEntity.badRequest().build();
-       
-      Long sensorId = dadosAmbientais.getSensor().getId();
-      Optional<Sensor> sensorOptional = sensorService.getSensorById(sensorId);
-       
-      if (sensorOptional.isEmpty()) return ResponseEntity.badRequest().build();
-       
-      Sensor sensor = sensorOptional.get();
-      dadosAmbientais.setSensor(sensor);
-       
-      DadosAmbientais createdDadosAmbientais = service.saveDadosAmbientais(dadosAmbientais);
-      return ResponseEntity.ok(createdDadosAmbientais);
    }
 
    // Método para resetar o banco de dados - Somente para testes

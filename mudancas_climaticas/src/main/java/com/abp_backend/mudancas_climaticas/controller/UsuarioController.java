@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,13 @@ public class UsuarioController {
       Page<Usuario> usuariosPage = usuarioService.getAllUsuarios(pageable);
       return ResponseEntity.ok(usuariosPage);
    }
+   
+   // Método para criar usuário
+   @PostMapping // POST /api/usuarios
+   public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+      Usuario createdUsuario = usuarioService.saveUsuario(usuario);
+      return ResponseEntity.status(HttpStatus.CREATED).body(createdUsuario);
+   }
 
    // Método para buscar usuário por id
    @GetMapping("/{id}") // GET /api/usuarios/{id}
@@ -62,13 +71,6 @@ public class UsuarioController {
    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
       if (usuarioService.deleteUsuario(id)) return ResponseEntity.ok().build();
       return ResponseEntity.notFound().build();
-   }
-
-   // Método para criar usuário
-   @PostMapping // POST /api/usuarios
-   public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
-      Usuario createdUsuario = usuarioService.saveUsuario(usuario);
-      return ResponseEntity.status(HttpStatus.CREATED).body(createdUsuario);
    }
 
    // Método para cadastrar sensor em um usuário
@@ -100,24 +102,6 @@ public class UsuarioController {
       
       List<Sensor> sensorsPage = sensorService.getSensorsByUsuario(usuarioId);
       return ResponseEntity.ok(sensorsPage);
-   }
-   
-   // Método para remover sensor de um usuário
-   @DeleteMapping("/{usuarioId}/delete-sensor/{sensorId}") // DELETE /api/usuarios/{usuarioId}/delete-sensor/{sensorId}
-   public ResponseEntity<Usuario> unregisterSensor(@PathVariable Long usuarioId, @PathVariable Long sensorId) {
-      Optional<Usuario> usuarioOptional = usuarioService.getUsuarioById(usuarioId);
-      if (usuarioOptional.isEmpty()) return ResponseEntity.notFound().build();
-
-      Optional<Sensor> sensorOptional = sensorService.getSensorById(sensorId);
-      if (sensorOptional.isEmpty()) return ResponseEntity.notFound().build();
-
-      Usuario usuario = usuarioOptional.get();
-      Sensor sensor = sensorOptional.get();
-      
-      sensor.setUsuario(null);
-      sensorService.saveSensor(sensor);
-
-      return ResponseEntity.ok(usuario);
    }
    
    // Método para buscar dados ambientais por sensor e/ou intervalo de tempo
@@ -161,5 +145,15 @@ public class UsuarioController {
    public ResponseEntity<Void> resetDatabase() {
       usuarioService.resetDatabase();
       return ResponseEntity.ok().build();
+   }
+   
+   // Método para ajuda - Retorna informações no formato especificado
+   @GetMapping("/ajuda") // GET /api/usuarios/ajuda
+   public ResponseEntity<Map<String, Object>> getAjuda() {
+      Map<String, Object> ajudaResponse = new HashMap<>();
+      ajudaResponse.put("estudantes", List.of("Kauan Nunes Aguiar", "Silvio Virtuoso Júnior"));
+      ajudaResponse.put("projeto", "Display de leitura de sensores de dados ambientais");
+      ajudaResponse.put("tema", "Mudanças Climáticas");
+      return ResponseEntity.ok(ajudaResponse);
    }
 }

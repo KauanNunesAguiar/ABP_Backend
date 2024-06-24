@@ -30,6 +30,13 @@ public class SensorController {
       Page<Sensor> sensoresPage = sensorService.getAllSensores(pageable);
       return ResponseEntity.ok(sensoresPage);
    }
+   
+   // Método para criar sensor
+   @PostMapping // POST /api/sensores
+   public ResponseEntity<Sensor> createSensor(@RequestBody Sensor sensor) {
+      Sensor createdSensor = sensorService.saveSensor(sensor);
+      return ResponseEntity.status(HttpStatus.CREATED).body(createdSensor);
+   }
 
    // Método para buscar sensor por id
    @GetMapping("/{id}") // GET /api/sensores/{id}
@@ -51,13 +58,6 @@ public class SensorController {
    public ResponseEntity<Void> deleteSensor(@PathVariable Long id) {
       if (sensorService.deleteSensor(id)) return ResponseEntity.ok().build();
       return ResponseEntity.notFound().build();
-   }
-
-   // Método para criar sensor
-   @PostMapping // POST /api/sensores
-   public ResponseEntity<Sensor> createSensor(@RequestBody Sensor sensor) {
-      Sensor createdSensor = sensorService.saveSensor(sensor);
-      return ResponseEntity.status(HttpStatus.CREATED).body(createdSensor);
    }
    
    // Método para coletar e salvar dados ambientais
