@@ -26,7 +26,7 @@ Este projeto tem como objetivo fazer o controle dos seus dadoss e informações 
 - **/api/sensores/{id}/colect-data**: POST para coletar e salvar dados ambientais do sensor (tipoDado = TipoSensor tipoDado, valor = double valor)
 - **/api/sensores/reset**: DELETE para resetar todos os sensores do banco de dados e retorna o id para 1.
 
-### Sensores
+### Usuários
 - **/api/usuarios**: GET para listar todos os usuarios armazenados no banco de dados
 - **/api/usuarios**: PUT para criar sensores, necessário cadastrar ao usuário
 - **/api/usuarios/{id}**: GET para buscar usuarios por ID.
